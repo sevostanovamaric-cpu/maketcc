@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>GPN AI-Ecosystem · Кликабельный прототип</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: #E8ECF2;
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    overflow: hidden;
+  }
+
+  .stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .frame {
+    position: relative;
+    width: min(100vw, calc(100vh * 1440 / 900));
+    aspect-ratio: 1440 / 900;
+    background: #fff;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .screen { position: absolute; inset: 0; display: none; }
+  .screen.active { display: block; }
+  .screen img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+    user-select: none; -webkit-user-drag: none;
+  }
+
+  .placeholder {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px; text-align: center; padding: 40px;
+    background: linear-gradient(135deg, #f3f6fb, #dfe6f1);
+  }
+  .ph-name { font-size: 34px; font-weight: 700; color: #10243E; }
+  .ph-hint { font-size: 16px; line-height: 1.5; max-width: 460px; color: #44566b; }
+  .ph-hint code { background: #fff; padding: 2px 8px; border-radius: 6px; color: #0B66C3; font-weight: 600; }
+
+  /* Clickable transparent zones — invisible, only the cursor hints they are clickable */
+  .zone {
+    position: absolute;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="frame" id="frame">
+
+    <div class="screen" data-screen="ai">
+      <div class="placeholder"><div class="ph-name">AI-помощник</div><div class="ph-hint">Экспортируйте экран из Figma как <code>screen_ai.png</code> и положите рядом с этим файлом</div></div>
+      <img src="screen_ai.png" alt="AI-помощник" onerror="this.style.display='none'">
+    </div>
+
+    <div class="screen" data-screen="profile">
+      <div class="placeholder"><div class="ph-name">Профиль</div><div class="ph-hint">Экспортируйте экран из Figma как <code>screen_profile.png</code> и положите рядом с этим файлом</div></div>
+      <img src="screen_profile.png" alt="Профиль" onerror="this.style.display='none'">
+    </div>
+
+    <div class="screen" data-screen="courses_all">
+      <div class="placeholder"><div class="ph-name">Курсы — Все</div><div class="ph-hint">Экспортируйте экран из Figma как <code>screen_courses_all.png</code> и положите рядом с этим файлом</div></div>
+      <img src="screen_courses_all.png" alt="Курсы — Все" onerror="this.style.display='none'">
+    </div>
+
+    <div class="screen" data-screen="courses_ai">
+      <div class="placeholder"><div class="ph-name">Курсы — Рекомендовано AI</div><div class="ph-hint">Экспортируйте экран из Figma как <code>screen_courses_ai.png</code> и положите рядом с этим файлом</div></div>
+      <img src="screen_courses_ai.png" alt="Курсы — Рекомендовано AI" onerror="this.style.display='none'">
+    </div>
+
+    <div class="screen" data-screen="courses_progress">
+      <div class="placeholder"><div class="ph-name">Курсы — В процессе</div><div class="ph-hint">Экспортируйте экран из Figma как <code>screen_courses_progress.png</code> и положите рядом с этим файлом</div></div>
+      <img src="screen_courses_progress.png" alt="Курсы — В процессе" onerror="this.style.display='none'">
+    </div>
+
+    <div class="screen" data-screen="courses_done">
+      <div class="placeholder"><div class="ph-name">Курсы — Завершенные</div><div class="ph-hint">Экспортируйте экран из Figma как <code>screen_courses_done.png</code> и положите рядом с этим файлом</div></div>
+      <img src="screen_courses_done.png" alt="Курсы — Завершенные" onerror="this.style.display='none'">
+    </div>
+
+    <div class="screen" data-screen="tasks">
+      <div class="placeholder"><div class="ph-name">Мои задачи</div><div class="ph-hint">Экспортируйте экран из Figma как <code>screen_tasks.png</code> и положите рядом с этим файлом</div></div>
+      <img src="screen_tasks.png" alt="Мои задачи" onerror="this.style.display='none'">
+    </div>
+
+    <div class="screen" data-screen="schedule">
+      <div class="placeholder"><div class="ph-name">Расписание</div><div class="ph-hint">Экспортируйте экран из Figma как <code>screen_schedule.png</code> и положите рядом с этим файлом</div></div>
+      <img src="screen_schedule.png" alt="Расписание" onerror="this.style.display='none'">
+    </div>
+
+    <div class="screen" data-screen="chats">
+      <div class="placeholder"><div class="ph-name">Чаты</div><div class="ph-hint">Экспортируйте экран из Figma как <code>screen_chats.png</code> и положите рядом с этим файлом</div></div>
+      <img src="screen_chats.png" alt="Чаты" onerror="this.style.display='none'">
+    </div>
+
+    <div class="screen active" data-screen="dashboard">
+      <div class="placeholder"><div class="ph-name">Дашборд тимлида</div><div class="ph-hint">Картинка <code>screen_dashboard.png</code> не найдена — положите её рядом с этим файлом</div></div>
+      <img src="screen_dashboard.png" alt="Дашборд тимлида" onerror="this.style.display='none'">
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ===== STATE =====
+  let currentScreen = 'dashboard';
+  let currentCoursesTab = 'all';
+
+  // ===== ZONE DEFINITIONS (percent of 1440x900) =====
+  const SIDEBAR_ZONES = [
+    { id: 'ai',        top: 22.5, height: 7.0 },
+    { id: 'profile',   top: 31.5, height: 6.0 },
+    { id: 'courses',   top: 38.5, height: 6.0 },
+    { id: 'tasks',     top: 45.8, height: 6.0 },
+    { id: 'schedule',  top: 53.0, height: 6.0 },
+    { id: 'chats',     top: 60.0, height: 6.0 },
+    { id: 'dashboard', top: 67.5, height: 6.0 }
+  ];
+  const SIDEBAR_LEFT = 2.6;
+  const SIDEBAR_WIDTH = 23.0;
+
+  const COURSES_TAB_ZONES = [
+    { id: 'all',      left: 28.5, top: 23.0, width: 9.0,  height: 6.5 },
+    { id: 'ai',       left: 40.0, top: 23.0, width: 18.0, height: 6.5 },
+    { id: 'progress', left: 28.5, top: 31.0, width: 12.5, height: 6.5 },
+    { id: 'done',     left: 43.5, top: 31.0, width: 12.5, height: 6.5 }
+  ];
+
+  // ===== BUILD CLICK ZONES =====
+  function buildZones() {
+    document.querySelectorAll('.screen').forEach(screen => {
+      SIDEBAR_ZONES.forEach(item => {
+        const zone = document.createElement('div');
+        zone.className = 'zone';
+        zone.style.left = SIDEBAR_LEFT + '%';
+        zone.style.top = item.top + '%';
+        zone.style.width = SIDEBAR_WIDTH + '%';
+        zone.style.height = item.height + '%';
+        zone.addEventListener('click', () => onSidebarClick(item.id));
+        screen.appendChild(zone);
+      });
+
+      if (screen.dataset.screen.startsWith('courses_')) {
+        COURSES_TAB_ZONES.forEach(tab => {
+          const zone = document.createElement('div');
+          zone.className = 'zone';
+          zone.style.left = tab.left + '%';
+          zone.style.top = tab.top + '%';
+          zone.style.width = tab.width + '%';
+          zone.style.height = tab.height + '%';
+          zone.addEventListener('click', () => onCoursesTabClick(tab.id));
+          screen.appendChild(zone);
+        });
+      }
+    });
+  }
+
+  // ===== HANDLERS =====
+  function onSidebarClick(itemId) {
+    if (itemId === 'courses') switchScreen('courses_' + currentCoursesTab);
+    else switchScreen(itemId);
+  }
+  function onCoursesTabClick(tabId) {
+    currentCoursesTab = tabId;
+    switchScreen('courses_' + tabId);
+  }
+  function switchScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.querySelector('.screen[data-screen="' + screenId + '"]');
+    if (target) { target.classList.add('active'); currentScreen = screenId; }
+  }
+
+  buildZones();
+</script>
+</body>
+</html>
